@@ -10,13 +10,13 @@ using phys::PhysObj;
 
 int main(void){
 	PhysObj obj = PhysObj("My First Object");
-	
-	Vector2 v1 = Vector2(5, 2);
-	Vector2 v2 = Vector2(-1, 1);
 
-	v1 -= v2;
+	obj.velocity = Vector2(1, 1);
 
-	cout << v1;
+	for (int i = 0; i < 10; i++){
+		phys::update();
+		phys::status();
+	}
 
 
 	return 0;

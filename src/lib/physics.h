@@ -2,6 +2,7 @@
 
 #include "cmath"
 #include "vector"
+#include "unordered_map"
 #include "string"
 #include "iostream"
 
@@ -9,6 +10,8 @@
 
 using std::vector;
 using std::string;
+using std::unordered_map;
+
 using space::Vector2;
 
 namespace phys {
@@ -17,7 +20,7 @@ namespace phys {
 
 	const double dt = 1/30;
 
-	vector<void*> objects;
+	unordered_map<string, void*> objects;
 
 	class PhysObj {
 		public:
@@ -29,7 +32,7 @@ namespace phys {
 
 			PhysObj(string name="Dummy") {
 				this->name = name;
-				objects.push_back(this);
+				objects.insert({name, this});
 			}
 
 			void move(Vector2 dR){
@@ -39,13 +42,14 @@ namespace phys {
 
 	void update() {
 		for (auto obj : objects) {
-			((PhysObj*)obj)->mass += dt;
+			PhysObj* physObj = (PhysObj*)(obj.second);
+			physObj->position += physObj->velocity;
 		}
 	}
 
 	void status() {
 		for (auto obj : objects){
-			PhysObj* physobj = (PhysObj*)obj;
+			PhysObj* physobj = (PhysObj*)(obj.second);
 			cout << physobj->name << ": " << physobj->position  << '\n';	
 		}
 	}

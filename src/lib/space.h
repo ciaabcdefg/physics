@@ -5,6 +5,11 @@
 using std::ostream;
 
 namespace space {
+	template<class T>
+		double dot(T v1, T v2) {
+			return v1.x * v2.x + v1.y * v2.y;
+		}
+
 	class Vector2 {
 		public:
 			double x = 0;
@@ -41,6 +46,15 @@ namespace space {
 				y -= other.y;
 				return *this;
 			}
+			
+			double operator * (Vector2 const& other) {
+				return dot(*this, other);
+			}
+
+			Vector2 operator * (double const& a) {
+				Vector2 v = Vector2(a * x, a * y);
+				return v;
+			}
 
 			friend ostream& operator << (ostream& os, const Vector2& v);
 	};
@@ -48,6 +62,11 @@ namespace space {
 	ostream& operator << (ostream& os, const Vector2& v) {
 		os << '(' << v.x << ", " << v.y << ')';
 		return os;
+	}
+
+	Vector2 operator * (const double a, const Vector2& other) {
+		Vector2 v = Vector2(a * other.x, a * other.y);
+		return v;
 	}
 }
 
